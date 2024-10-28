@@ -1,0 +1,130 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Customer: customer information.
+InsurancePolicy: insurance policies on purchased spaceships.
+Spaceship: individual spaceships for sale or previously sold.
+Loan: loan details for spaceship purchases.
+Manufacturer: information about spaceship manufacturers.
+Sale: sales records.
+Salesperson: details of salespeople.
+ServiceAgreement: service agreements for spaceships.
+ServiceRecord: service and maintenance records.
+SpaceshipModel: models of spaceships available for sale.
+SpaceshipManufacturerLink: Link table between spaceships/features and their manufacturer.
+TestDrife: test drive records by potential customers.
+'''
+}
+
+Table Customer {
+    id INTEGER [primary key]
+    name VARCHAR 
+    email VARCHAR 
+    phone VARCHAR 
+    preferred_contact VARCHAR 
+    }
+
+Table InsurancePolicy {
+    id INTEGER [primary key]
+    spaceship_id INTEGER 
+    policy_number VARCHAR 
+    provider VARCHAR 
+    start_date DATETIME 
+    end_date DATETIME 
+    insured_amount FLOAT 
+    }
+
+Table Spaceship {
+    id INTEGER [primary key]
+    spaceship_model_id INTEGER 
+    year_manufactured INTEGER 
+    status VARCHAR 
+    }
+
+Table Loan {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    spaceship_id INTEGER 
+    loan_amount FLOAT 
+    interest_rate FLOAT 
+    }
+
+Table Manufacturer {
+    id INTEGER [primary key]
+    name VARCHAR 
+    country VARCHAR 
+    founded DATETIME 
+    }
+
+Table Sale {
+    id INTEGER [primary key]
+    spaceship_id INTEGER 
+    customer_id INTEGER 
+    salesperson_id INTEGER 
+    sale_date DATETIME 
+    total_price FLOAT 
+    }
+
+Table Salesperson {
+    id INTEGER [primary key]
+    name VARCHAR 
+    hire_date DATETIME 
+    }
+
+Table ServiceAgreement {
+    id INTEGER [primary key]
+    spaceship_id INTEGER 
+    start_date DATETIME 
+    end_date DATETIME 
+    agreement_price FLOAT 
+    }
+
+Table ServiceRecord {
+    id INTEGER [primary key]
+    spaceship_id INTEGER 
+    service_date DATETIME 
+    description TEXT 
+    }
+
+Table SpaceshipModel {
+    id INTEGER [primary key]
+    name VARCHAR 
+    manufacturer_id INTEGER 
+    capacity INTEGER 
+    price FLOAT 
+    }
+
+Table SpaceshipManufacturerLink {
+    id INTEGER [primary key]
+    spaceship_id INTEGER 
+    manufacturer_id INTEGER 
+    }
+
+Table TestDrife {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    spaceship_model_id INTEGER 
+    test_date DATETIME 
+    feedback TEXT 
+    }
+
+
+
+// Relationships
+    Ref: InsurancePolicy.(spaceship_id) < Spaceship.(id)
+    Ref: Spaceship.(spaceship_model_id) < SpaceshipModel.(id)
+    Ref: Loan.(customer_id) < Customer.(id)
+    Ref: Loan.(spaceship_id) < Spaceship.(id)
+    Ref: Sale.(customer_id) < Customer.(id)
+    Ref: Sale.(salesperson_id) < Salesperson.(id)
+    Ref: Sale.(spaceship_id) < Spaceship.(id)
+    Ref: ServiceAgreement.(spaceship_id) < Spaceship.(id)
+    Ref: ServiceRecord.(spaceship_id) < Spaceship.(id)
+    Ref: SpaceshipModel.(manufacturer_id) < Manufacturer.(id)
+    Ref: SpaceshipManufacturerLink.(manufacturer_id) < Manufacturer.(id)
+    Ref: SpaceshipManufacturerLink.(spaceship_id) < Spaceship.(id)
+    Ref: TestDrife.(customer_id) < Customer.(id)
+    Ref: TestDrife.(spaceship_model_id) < SpaceshipModel.(id)

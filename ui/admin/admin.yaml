@@ -1,0 +1,373 @@
+about:
+  date: October 28, 2024 17:06:17
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 14
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Customer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+      required: true
+    - name: phone
+    - name: preferred_contact
+    - name: id
+    description: Table storing customer information.
+    info_list: Table storing customer information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: LoanList
+      resource: Loan
+    - direction: tomany
+      fks:
+      - customer_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - customer_id
+      name: TestDrifeList
+      resource: TestDrife
+    type: Customer
+    user_key: name
+  InsurancePolicy:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: spaceship_id
+    - name: policy_number
+      required: true
+    - name: provider
+    - name: start_date
+      type: DATETIME
+    - name: end_date
+      type: DATETIME
+    - name: insured_amount
+    description: Table storing insurance policies on purchased spaceships.
+    info_list: Table storing insurance policies on purchased spaceships.
+    tab_groups:
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: InsurancePolicy
+    user_key: id
+  Loan:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+    - name: spaceship_id
+    - name: loan_amount
+    - name: interest_rate
+    description: Table storing loan details for spaceship purchases.
+    info_list: Table storing loan details for spaceship purchases.
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: Loan
+    user_key: id
+  Manufacturer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: country
+    - name: id
+    - name: founded
+      type: DATETIME
+    description: Table storing information about spaceship manufacturers.
+    info_list: Table storing information about spaceship manufacturers.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - manufacturer_id
+      name: SpaceshipManufacturerLinkList
+      resource: SpaceshipManufacturerLink
+    - direction: tomany
+      fks:
+      - manufacturer_id
+      name: SpaceshipModelList
+      resource: SpaceshipModel
+    type: Manufacturer
+    user_key: name
+  Sale:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+    - name: salesperson_id
+    - name: spaceship_id
+    - name: sale_date
+      type: DATETIME
+    - name: total_price
+    description: Table storing sales records.
+    info_list: Table storing sales records.
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - salesperson_id
+      name: salesperson
+      resource: Salesperson
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: Sale
+    user_key: id
+  Salesperson:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: hire_date
+      type: DATETIME
+    - name: id
+    description: Table storing details of salespeople.
+    info_list: Table storing details of salespeople.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - salesperson_id
+      name: SaleList
+      resource: Sale
+    type: Salesperson
+    user_key: name
+  ServiceAgreement:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: spaceship_id
+    - name: start_date
+      type: DATETIME
+    - name: end_date
+      type: DATETIME
+    - name: agreement_price
+    description: Table storing service agreements for spaceships.
+    info_list: Table storing service agreements for spaceships.
+    tab_groups:
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: ServiceAgreement
+    user_key: id
+  ServiceRecord:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: spaceship_id
+    - name: service_date
+      type: DATETIME
+    - name: id
+    description: Table storing service and maintenance records.
+    info_list: Table storing service and maintenance records.
+    tab_groups:
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: ServiceRecord
+    user_key: description
+  Spaceship:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: spaceship_model_id
+    - name: status
+    - name: year_manufactured
+    description: Table storing individual spaceships for sale or previously sold.
+    info_list: Table storing individual spaceships for sale or previously sold.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: InsurancePolicyList
+      resource: InsurancePolicy
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: LoanList
+      resource: Loan
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: ServiceAgreementList
+      resource: ServiceAgreement
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: ServiceRecordList
+      resource: ServiceRecord
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: SpaceshipManufacturerLinkList
+      resource: SpaceshipManufacturerLink
+    - direction: toone
+      fks:
+      - spaceship_model_id
+      name: spaceship_model
+      resource: SpaceshipModel
+    type: Spaceship
+    user_key: id
+  SpaceshipManufacturerLink:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: manufacturer_id
+    - name: spaceship_id
+    description: Link table between spaceships/features and their manufacturer.
+    info_list: Link table between spaceships/features and their manufacturer.
+    tab_groups:
+    - direction: toone
+      fks:
+      - manufacturer_id
+      name: manufacturer
+      resource: Manufacturer
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: SpaceshipManufacturerLink
+    user_key: id
+  SpaceshipModel:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: manufacturer_id
+    - name: capacity
+    - name: price
+    - name: id
+    description: Table storing models of spaceships available for sale.
+    info_list: Table storing models of spaceships available for sale.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - spaceship_model_id
+      name: SpaceshipList
+      resource: Spaceship
+    - direction: tomany
+      fks:
+      - spaceship_model_id
+      name: TestDrifeList
+      resource: TestDrife
+    - direction: toone
+      fks:
+      - manufacturer_id
+      name: manufacturer
+      resource: Manufacturer
+    type: SpaceshipModel
+    user_key: name
+  TestDrife:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+    - name: spaceship_model_id
+    - name: test_date
+      type: DATETIME
+    - name: feedback
+    description: Table storing test drive records by potential customers.
+    info_list: Table storing test drive records by potential customers.
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - spaceship_model_id
+      name: spaceship_model
+      resource: SpaceshipModel
+    type: TestDrife
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

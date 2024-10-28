@@ -1,0 +1,216 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Customer_form_edit" 
+        service="Customer" 
+        entity="Customer" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #email attr="email" label="email" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #phone attr="phone" label="phone" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #preferred_contact attr="preferred_contact" label="preferred_contact" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="LOAN-customer_id">
+    <div layout-padding>
+      <o-table 
+        attr="LoanTable" 
+        service="Loan" 
+        entity="Loan" 
+        keys="id"
+        parent-keys="customer_id:id"
+        columns="id;customer_id;spaceship_id;loan_amount;interest_rate"  
+        horizontal-scroll="yes"
+        detail-form-route="Loan" 
+        edit-form-route="Loan"
+        visible-columns="id;customer_id;spaceship_id;loan_amount;interest_rate"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="customer_id" title="customer_id">
+    <o-table-cell-renderer-service attr="customer_id" 
+        service="Customer" entity="CustomerType" columns="id;name"
+        parent-keys="id:customer_id"
+        value-column="name" keys="customer_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="spaceship_id" title="spaceship_id">
+    <o-table-cell-renderer-service attr="spaceship_id" 
+        service="Spaceship" entity="SpaceshipType" columns="id;id"
+        parent-keys="id:spaceship_id"
+        value-column="id" keys="spaceship_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #loan_amount attr="loan_amount" title="loan_amount" type="currency" editable="no" required="no" currency-symbol="$" currency-symbol-position="left" thousand-separator=","decimal-separator="."></o-table-column>
+        
+          <o-table-column #interest_rate attr="interest_rate" title="interest_rate" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="SALE-customer_id">
+    <div layout-padding>
+      <o-table 
+        attr="SaleTable" 
+        service="Sale" 
+        entity="Sale" 
+        keys="id"
+        parent-keys="customer_id:id"
+        columns="id;customer_id;salesperson_id;spaceship_id;sale_date;total_price"  
+        horizontal-scroll="yes"
+        detail-form-route="Sale" 
+        edit-form-route="Sale"
+        visible-columns="id;customer_id;salesperson_id;spaceship_id;sale_date;total_price"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="customer_id" title="customer_id">
+    <o-table-cell-renderer-service attr="customer_id" 
+        service="Customer" entity="CustomerType" columns="id;name"
+        parent-keys="id:customer_id"
+        value-column="name" keys="customer_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="salesperson_id" title="salesperson_id">
+    <o-table-cell-renderer-service attr="salesperson_id" 
+        service="Salesperson" entity="SalespersonType" columns="id;name"
+        parent-keys="id:salesperson_id"
+        value-column="name" keys="salesperson_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="spaceship_id" title="spaceship_id">
+    <o-table-cell-renderer-service attr="spaceship_id" 
+        service="Spaceship" entity="SpaceshipType" columns="id;id"
+        parent-keys="id:spaceship_id"
+        value-column="id" keys="spaceship_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-date-input #sale_date attr="sale_date" type="timestamp" label="sale_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-table-column #total_price attr="total_price" title="total_price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="TESTDRIFE-customer_id">
+    <div layout-padding>
+      <o-table 
+        attr="TestDrifeTable" 
+        service="TestDrife" 
+        entity="TestDrife" 
+        keys="id"
+        parent-keys="customer_id:id"
+        columns="id;customer_id;spaceship_model_id;test_date;feedback"  
+        horizontal-scroll="yes"
+        detail-form-route="TestDrife" 
+        edit-form-route="TestDrife"
+        visible-columns="id;customer_id;spaceship_model_id;test_date;feedback"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="customer_id" title="customer_id">
+    <o-table-cell-renderer-service attr="customer_id" 
+        service="Customer" entity="CustomerType" columns="id;name"
+        parent-keys="id:customer_id"
+        value-column="name" keys="customer_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="spaceship_model_id" title="spaceship_model_id">
+    <o-table-cell-renderer-service attr="spaceship_model_id" 
+        service="SpaceshipModel" entity="SpaceshipModelType" columns="id;name"
+        parent-keys="id:spaceship_model_id"
+        value-column="name" keys="spaceship_model_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-date-input #test_date attr="test_date" type="timestamp" label="test_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-table-column #feedback attr="feedback" title="feedback" editable="no" required="no" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

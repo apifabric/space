@@ -1,0 +1,557 @@
+about:
+  date: October 28, 2024 17:06:17
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Customer:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: email
+      required: true
+      template: text
+      type: VARCHAR
+    - name: phone
+      template: text
+      type: VARCHAR
+    - name: preferred_contact
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing customer information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing customer information.
+    label: Customer
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: LoanList
+      resource: Loan
+    - direction: tomany
+      fks:
+      - customer_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - customer_id
+      name: TestDrifeList
+      resource: TestDrife
+    type: Customer
+  InsurancePolicy:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: spaceship_id
+      template: integer
+      type: INTEGER
+    - name: policy_number
+      required: true
+      template: text
+      type: VARCHAR
+    - name: provider
+      template: text
+      type: VARCHAR
+    - name: start_date
+      type: DATETIME
+    - name: end_date
+      type: DATETIME
+    - name: insured_amount
+      template: real
+      type: FLOAT
+    description: Table storing insurance policies on purchased spaceships.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing insurance policies on purchased spaceships.
+    label: InsurancePolicy
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: InsurancePolicy
+  Loan:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: customer_id
+      template: integer
+      type: INTEGER
+    - name: spaceship_id
+      template: integer
+      type: INTEGER
+    - name: loan_amount
+      template: real
+      type: FLOAT
+    - name: interest_rate
+      template: real
+      type: FLOAT
+    description: Table storing loan details for spaceship purchases.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing loan details for spaceship purchases.
+    label: Loan
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: Loan
+  Manufacturer:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: country
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    - name: founded
+      type: DATETIME
+    description: Table storing information about spaceship manufacturers.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing information about spaceship manufacturers.
+    label: Manufacturer
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - manufacturer_id
+      name: SpaceshipManufacturerLinkList
+      resource: SpaceshipManufacturerLink
+    - direction: tomany
+      fks:
+      - manufacturer_id
+      name: SpaceshipModelList
+      resource: SpaceshipModel
+    type: Manufacturer
+  Sale:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: customer_id
+      template: integer
+      type: INTEGER
+    - name: salesperson_id
+      template: integer
+      type: INTEGER
+    - name: spaceship_id
+      template: integer
+      type: INTEGER
+    - name: sale_date
+      type: DATETIME
+    - name: total_price
+      template: real
+      type: FLOAT
+    description: Table storing sales records.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing sales records.
+    label: Sale
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - salesperson_id
+      name: salesperson
+      resource: Salesperson
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: Sale
+  Salesperson:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: hire_date
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing details of salespeople.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing details of salespeople.
+    label: Salesperson
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - salesperson_id
+      name: SaleList
+      resource: Sale
+    type: Salesperson
+  ServiceAgreement:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: spaceship_id
+      template: integer
+      type: INTEGER
+    - name: start_date
+      type: DATETIME
+    - name: end_date
+      type: DATETIME
+    - name: agreement_price
+      template: real
+      type: FLOAT
+    description: Table storing service agreements for spaceships.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing service agreements for spaceships.
+    label: ServiceAgreement
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: ServiceAgreement
+  ServiceRecord:
+    columns:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+      template: text
+      type: TEXT
+    - name: spaceship_id
+      template: integer
+      type: INTEGER
+    - name: service_date
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing service and maintenance records.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    home_template: home_template.html
+    info_list: Table storing service and maintenance records.
+    label: ServiceRecord
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: ServiceRecord
+  Spaceship:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: spaceship_model_id
+      template: integer
+      type: INTEGER
+    - name: status
+      template: text
+      type: VARCHAR
+    - name: year_manufactured
+      template: integer
+      type: INTEGER
+    description: Table storing individual spaceships for sale or previously sold.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing individual spaceships for sale or previously sold.
+    label: Spaceship
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: InsurancePolicyList
+      resource: InsurancePolicy
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: LoanList
+      resource: Loan
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: ServiceAgreementList
+      resource: ServiceAgreement
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: ServiceRecordList
+      resource: ServiceRecord
+    - direction: tomany
+      fks:
+      - spaceship_id
+      name: SpaceshipManufacturerLinkList
+      resource: SpaceshipManufacturerLink
+    - direction: toone
+      fks:
+      - spaceship_model_id
+      name: spaceship_model
+      resource: SpaceshipModel
+    type: Spaceship
+  SpaceshipManufacturerLink:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: manufacturer_id
+      template: integer
+      type: INTEGER
+    - name: spaceship_id
+      template: integer
+      type: INTEGER
+    description: Link table between spaceships/features and their manufacturer.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Link table between spaceships/features and their manufacturer.
+    label: SpaceshipManufacturerLink
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - manufacturer_id
+      name: manufacturer
+      resource: Manufacturer
+    - direction: toone
+      fks:
+      - spaceship_id
+      name: spaceship
+      resource: Spaceship
+    type: SpaceshipManufacturerLink
+  SpaceshipModel:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: manufacturer_id
+      template: integer
+      type: INTEGER
+    - name: capacity
+      template: integer
+      type: INTEGER
+    - name: price
+      template: real
+      type: FLOAT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing models of spaceships available for sale.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing models of spaceships available for sale.
+    label: SpaceshipModel
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - spaceship_model_id
+      name: SpaceshipList
+      resource: Spaceship
+    - direction: tomany
+      fks:
+      - spaceship_model_id
+      name: TestDrifeList
+      resource: TestDrife
+    - direction: toone
+      fks:
+      - manufacturer_id
+      name: manufacturer
+      resource: Manufacturer
+    type: SpaceshipModel
+  TestDrife:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: customer_id
+      template: integer
+      type: INTEGER
+    - name: spaceship_model_id
+      template: integer
+      type: INTEGER
+    - name: test_date
+      type: DATETIME
+    - name: feedback
+      template: text
+      type: TEXT
+    description: Table storing test drive records by potential customers.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing test drive records by potential customers.
+    label: TestDrife
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - spaceship_model_id
+      name: spaceship_model
+      resource: SpaceshipModel
+    type: TestDrife
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

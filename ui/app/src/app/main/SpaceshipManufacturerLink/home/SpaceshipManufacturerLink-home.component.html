@@ -1,0 +1,49 @@
+<o-form-layout-manager attr="SpaceshipManufacturerLink" mode="tab" title="SPACESHIPMANUFACTURERLINK">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="SpaceshipManufacturerLinkTable" 
+            service="SpaceshipManufacturerLink" 
+            entity="SpaceshipManufacturerLink" 
+            title="SPACESHIPMANUFACTURERLINK"
+            keys="id"
+            columns="id;manufacturer_id;spaceship_id" 
+            header-actions="R;D"
+            visible-columns="id;manufacturer_id;spaceship_id"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="manufacturer_id" title="manufacturer_id">
+    <o-table-cell-renderer-service attr="manufacturer_id" 
+        service="Manufacturer" entity="ManufacturerType" columns="id;name"
+        parent-keys="id:manufacturer_id"
+        value-column="name" keys="manufacturer_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="spaceship_id" title="spaceship_id">
+    <o-table-cell-renderer-service attr="spaceship_id" 
+        service="Spaceship" entity="SpaceshipType" columns="id;id"
+        parent-keys="id:spaceship_id"
+        value-column="id" keys="spaceship_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
